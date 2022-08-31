@@ -102,14 +102,14 @@ class TopicDiagnostic(HeaderlessTopicDiagnostic):
         self.stamp = TimeStampStatus(stamp)
         self.addTask(self.stamp)
 
-    def tick(self, stamp):
+    def tick(self, stamp_s):
         """
         Collect statistics and publishes the message.
 
         @param stamp Timestamp to use for interval computation by the
         TimeStampStatus class.
         """
-        self.stamp.tick(stamp)
+        self.stamp.tick(stamp_s)
         HeaderlessTopicDiagnostic.tick(self)
 
 
@@ -143,5 +143,6 @@ class DiagnosedPublisher(TopicDiagnostic):
         The timestamp to be used by the TimeStampStatus class will be
         extracted from message.header.stamp.
         """
-        self.tick(Time.from_msg(message.header.stamp))
+        stamp_s = Time.from_msg(message.header.stamp).nanoseconds * 1e-9
+        self.tick(stamp_s)
         self.publisher.publish(message)
