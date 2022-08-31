@@ -124,19 +124,17 @@ class FrequencyStatus(DiagnosticTask):
             else:
                 stat.summary(b'\x00', 'Desired frequency met')
 
-            stat.add('Events in window', '%d' % events)
-            stat.add('Events since startup', '%d' % self.count)
-            stat.add('Duration of window (s)', '%f' % window)
-            stat.add('Actual frequency (Hz)', '%f' % freq)
+            stat.add('Events in window', f"{events}" )
+            stat.add('Events since startup', f"{self.count}")
+            stat.add('Duration of window (s)', f"{window}")
+            stat.add('Actual frequency (Hz)', f"{freq}")
             if 'max' in self.params.freq_bound and self.params.freq_bound['min'] == \
                self.params.freq_bound['max']:
-                stat.add('Target frequency (Hz)', '%f' % self.params.freq_bound['min'])
+                stat.add('Target frequency (Hz)', f"{self.params.freq_bound['min']}")
             if self.params.freq_bound['min'] > 0:
-                stat.add('Minimum acceptable frequency (Hz)', '%f'
-                         % (self.params.freq_bound['min'] * (1 - self.params.tolerance)))
+                stat.add('Minimum acceptable frequency (Hz)', f"{(self.params.freq_bound['min'] * (1 - self.params.tolerance))}")
             if 'max' in self.params.freq_bound:
-                stat.add('Maximum acceptable frequency (Hz)', '%f'
-                         % (self.params.freq_bound['max'] * (1 + self.params.tolerance)))
+                stat.add('Maximum acceptable frequency (Hz)', f"{(self.params.freq_bound['max'] * (1 + self.params.tolerance))}")
 
         return stat
 
@@ -220,13 +218,13 @@ class TimeStampStatus(DiagnosticTask):
                     stat.summary(b'\x02', 'Zero timestamp seen.')
                     self.zero_count += 1
 
-            stat.add('Earliest timestamp delay:', '%f' % self.min_delta)
-            stat.add('Latest timestamp delay:', '%f' % self.max_delta)
-            stat.add('Earliest acceptable timestamp delay:', '%f' % self.params.min_acceptable)
-            stat.add('Latest acceptable timestamp delay:', '%f' % self.params.max_acceptable)
-            stat.add('Late diagnostic update count:', '%i' % self.late_count)
-            stat.add('Early diagnostic update count:', '%i' % self.early_count)
-            stat.add('Zero seen diagnostic update count:', '%i' % self.zero_count)
+            stat.add('Earliest timestamp delay:', f"{self.min_delta}")
+            stat.add('Latest timestamp delay:', f"{self.max_delta}")
+            stat.add('Earliest acceptable timestamp delay:', f"{self.params.min_acceptable}")
+            stat.add('Latest acceptable timestamp delay:', f"{self.params.max_acceptable}")
+            stat.add('Late diagnostic update count:', f"{self.late_count}")
+            stat.add('Early diagnostic update count:', f"{self.early_count}")
+            stat.add('Zero seen diagnostic update count:', f"{self.zero_count}")
 
             self.deltas_valid = False
             self.min_delta = 0

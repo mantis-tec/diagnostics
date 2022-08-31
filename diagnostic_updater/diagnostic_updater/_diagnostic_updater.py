@@ -262,9 +262,9 @@ class Updater(DiagnosticTaskVector):
                     warn_nohwid = False
 
                 if self.verbose and status.level:
-                    self.node.get_logger().warn('Non-zero diagnostic status. Name: %s, status\
-                                                %i: %s' % (status.name, status.level,
-                                                           status.message))
+                    self.node.get_logger().warn(f"Non-zero diagnostic status. Name:" \
+                                                f" {status.name}, status" \
+                                                f" {status.level}: {status.message}")
 
         if warn_nohwid and not self.warn_nohwid_done:
             self.node.get_logger().warn('diagnostic_updater: No HW_ID was set. This is probably\
