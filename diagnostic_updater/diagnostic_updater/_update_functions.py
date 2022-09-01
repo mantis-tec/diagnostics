@@ -38,6 +38,7 @@ diagnostic_updater for Python.
 """
 
 import threading
+from math import ceil
 
 from rclpy.clock import Clock
 from rclpy.clock import ClockType
@@ -93,8 +94,8 @@ class FrequencyStatus(DiagnosticTask):
             self.count = 0
             clock = Clock(clock_type=ClockType.ROS_TIME)
             curtime = clock.now()
-            self.times = [curtime for i in range(self.params.window_size)]
-            self.seq_nums = [0 for i in range(self.params.window_size)]
+            self.times = [curtime for i in range(ceil(self.params.window_size))]
+            self.seq_nums = [0 for i in range(ceil(self.params.window_size))]
             self.hist_indx = 0
 
     def tick(self):
@@ -112,7 +113,7 @@ class FrequencyStatus(DiagnosticTask):
             freq = events / window
             self.seq_nums[self.hist_indx] = curseq
             self.times[self.hist_indx] = curtime
-            self.hist_indx = (self.hist_indx + 1) % self.params.window_size
+            self.hist_indx = (self.hist_indx + 1) % ceil(self.params.window_size)
 
             if events == 0:
                 stat.summary(b'\x02', 'No events recorded.')
