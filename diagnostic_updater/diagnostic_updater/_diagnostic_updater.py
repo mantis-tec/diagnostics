@@ -261,7 +261,7 @@ class Updater(DiagnosticTaskVector):
                 if status.level:
                     warn_nohwid = False
 
-                if self.verbose and status.level:
+                if self.verbose and status.level != b'\x00':
                     self.node.get_logger().warn(f"Non-zero diagnostic status. Name:" \
                                                 f" {status.name}, status" \
                                                 f" {status.level}: {status.message}")
@@ -284,7 +284,7 @@ class Updater(DiagnosticTaskVector):
     def period(self, period):
         self.__period = period
         self.timer.reset()
-        self.timer = self.node.creat_timer(self.__period, self.udpate)
+        self.timer = self.node.create_timer(self.__period, self.update)
 
     def force_update(self):
         """Force sending out an update for all known DiagnosticStatus."""
